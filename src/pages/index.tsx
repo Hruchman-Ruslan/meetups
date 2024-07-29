@@ -1,5 +1,3 @@
-import styles from "@/styles/Home.module.css";
-
 export default function Home() {
-  return <h1>Reset</h1>;
+  return <h1>The Home Page</h1>;
 }
