@@ -1,16 +1,13 @@
 import { useRef } from "react";
 
+import { IAddMeetup } from "@/types/add-meetup";
+
 import Card from "../ui/card";
 
 import classes from "./meetup-form.module.css";
 
 export interface MeetupFormProps {
-  onAddMeetup: (meetupData: {
-    title: string | undefined;
-    image: string | undefined;
-    address: string | undefined;
-    description: string | undefined;
-  }) => void;
+  onAddMeetup: (meetupData: IAddMeetup) => void;
 }
 
 export default function MeetupForm({ onAddMeetup }: MeetupFormProps) {
