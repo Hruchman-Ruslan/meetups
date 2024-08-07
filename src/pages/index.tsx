@@ -1,3 +1,5 @@
+import type { GetServerSidePropsContext } from "next";
+
 import { IMeetup } from "@/types/meetup";
 
 import MeetupList from "@/components/meetups/meetup-list";
@@ -29,11 +31,26 @@ export default function HomePage({ meetups }: HomePageProps) {
   return <MeetupList meetups={meetups} />;
 }
 
-export async function getStaticProps() {
-  // fetch api data
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  // const req = context.req;
+  // const res = context.res;
+
+  // console.log("req", req);
+  // console.log("res", res);
+  // fetching api data
   return {
     props: {
       meetups: DUMMY_MEETUPS,
     },
   };
 }
+
+// export async function getStaticProps() {
+//   // fetch api data
+//   return {
+//     props: {
+//       meetups: DUMMY_MEETUPS,
+//     },
+//     revalidate: 3600,
+//   };
+// }
