@@ -1,6 +1,10 @@
+import type { GetServerSidePropsContext } from "next";
+
+import { IMeetup } from "@/types/meetup";
+
 import MeetupList from "@/components/meetups/meetup-list";
 
-const DUMMY_MEETUPS = [
+const DUMMY_MEETUPS: IMeetup[] = [
   {
     id: "m1",
     title: "A First Meetup",
@@ -19,6 +23,34 @@ const DUMMY_MEETUPS = [
   },
 ];
 
-export default function Home() {
-  return <MeetupList meetups={DUMMY_MEETUPS} />;
+export interface HomePageProps {
+  meetups: IMeetup[];
 }
+
+export default function HomePage({ meetups }: HomePageProps) {
+  return <MeetupList meetups={meetups} />;
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  // const req = context.req;
+  // const res = context.res;
+
+  // console.log("req", req);
+  // console.log("res", res);
+  // fetching api data
+  return {
+    props: {
+      meetups: DUMMY_MEETUPS,
+    },
+  };
+}
+
+// export async function getStaticProps() {
+//   // fetch api data
+//   return {
+//     props: {
+//       meetups: DUMMY_MEETUPS,
+//     },
+//     revalidate: 3600,
+//   };
+// }
