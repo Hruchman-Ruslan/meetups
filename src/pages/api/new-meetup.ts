@@ -10,7 +10,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method === "POST ") {
+  if (req.method === "POST") {
     const { body } = req;
 
     const client = await MongoClient.connect(MONGO_URL);
