@@ -1,27 +1,10 @@
-// import type { GetServerSidePropsContext } from "next";
+import { MongoClient } from "mongodb";
+
+const MONGO_URL = process.env.MONGO_URL as string;
 
 import { IMeetup } from "@/types/meetup";
 
 import MeetupList from "@/components/meetups/meetup-list";
-
-const DUMMY_MEETUPS: IMeetup[] = [
-  {
-    id: "m1",
-    title: "A First Meetup",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/1280px-Stadtbild_M%C3%BCnchen.jpg",
-    address: "Some address 5, 12345 Some City",
-    description: "This is a first meetup!",
-  },
-  {
-    id: "m2",
-    title: "A Second Meetup",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/1280px-Stadtbild_M%C3%BCnchen.jpg",
-    address: "Some address 10, 12345 Some City",
-    description: "This is a second meetup!",
-  },
-];
 
 export interface HomePageProps {
   meetups: IMeetup[];
@@ -31,26 +14,23 @@ export default function HomePage({ meetups }: HomePageProps) {
   return <MeetupList meetups={meetups} />;
 }
 
-// export async function getServerSideProps(context: GetServerSidePropsContext) {
-//   const req = context.req;
-//   const res = context.res;
-
-//   console.log("req", req);
-//   console.log("res", res);
-//   // fetching api data
-//   return {
-//     props: {
-//       meetups: DUMMY_MEETUPS,
-//     },
-//   };
-// }
-
 export async function getStaticProps() {
-  // fetch api data
+  const client = await MongoClient.connect(MONGO_URL);
+  const db = client.db();
+  const meetupsCollection = db.collection("meetups");
+  const meetups = await meetupsCollection.find().toArray();
+
+  client.close();
+
   return {
     props: {
-      meetups: DUMMY_MEETUPS,
+      meetups: meetups.map(({ _id, title, address, image }) => ({
+        id: _id.toString(),
+        title,
+        address,
+        image,
+      })),
     },
-    revalidate: 3600,
+    revalidate: 1,
   };
 }
