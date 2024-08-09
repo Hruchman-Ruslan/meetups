@@ -3,5 +3,4 @@ export interface IMeetup {
   image: string;
   title: string;
   address: string;
-  description?: string;
 }
