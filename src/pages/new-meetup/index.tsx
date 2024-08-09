@@ -1,3 +1,5 @@
+import Head from "next/head";
+
 import { useRouter } from "next/router";
 
 import { IAddMeetup } from "@/types/add-meetup";
@@ -25,5 +27,16 @@ export default function NewMeetupPage({}: NewMeetupPageProps) {
     router.push("/");
   }
 
-  return <MeetupForm onAddMeetup={addMeetupHandler} />;
+  return (
+    <>
+      <Head>
+        <title>Add a New Meetup</title>
+        <meta
+          name="description"
+          content="Add you own meetups and create amazing networking opportunities."
+        />
+      </Head>
+      <MeetupForm onAddMeetup={addMeetupHandler} />
+    </>
+  );
 }

@@ -1,3 +1,5 @@
+import Head from "next/head";
+
 import { MongoClient, ObjectId } from "mongodb";
 
 import type { GetStaticPropsContext } from "next";
@@ -20,12 +22,18 @@ export default function MeetupsDetailsPage({
   description,
 }: MeetupsDetailsPageProps) {
   return (
-    <MeetupDetail
-      image={image}
-      title={title}
-      address={address}
-      description={description}
-    />
+    <>
+      <Head>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+      </Head>
+      <MeetupDetail
+        image={image}
+        title={title}
+        address={address}
+        description={description}
+      />
+    </>
   );
 }
 
@@ -40,7 +48,7 @@ export async function getStaticPaths() {
   client.close();
 
   return {
-    fallback: false,
+    fallback: "blocking",
     paths: meetups.map(({ _id }) => ({
       params: {
         meetupId: _id.toString(),

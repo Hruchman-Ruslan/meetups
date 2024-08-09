@@ -1,5 +1,7 @@
 import { MongoClient } from "mongodb";
 
+import Head from "next/head";
+
 const MONGO_URL = process.env.MONGO_URL as string;
 
 import { IMeetup } from "@/types/meetup";
@@ -11,7 +13,18 @@ export interface HomePageProps {
 }
 
 export default function HomePage({ meetups }: HomePageProps) {
-  return <MeetupList meetups={meetups} />;
+  return (
+    <>
+      <Head>
+        <title>React Meetups</title>
+        <meta
+          name="description"
+          content="Browse a huge list of highly active React Meetups!"
+        />
+      </Head>
+      <MeetupList meetups={meetups} />
+    </>
+  );
 }
 
 export async function getStaticProps() {
